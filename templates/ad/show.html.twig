@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ad.title}}
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-3">
+		<h1>{{ad.title}}</h1>
+		<p>{{ad.introduction}}</p>
+		<p class="h2">
+			{{ ad.rooms }}
+			chambres,
+			<strong>
+				{{ ad.price }}&euro; / nuit
+			</strong>
+		</p>
+		<a href="" class="btn btn-primary mb-2">Réserver !</a>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Magnifiques Annonces
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-3">
+		<h1 class="h1 my-3">Voici les Annonces de nos Hôtes</h1>
+		{# Nous allons afficher la liste de toutes les annonces dans des cards #}
+		<div class="row">
+			{% for ad in ads %}
+				<div class="col-md-4">
+					<div class="card border-secondary mb-3">
+						<div class="card-header text-center">
+							{{ ad.rooms }}
+							chambres,
+							<strong>
+								{{ ad.price }}&euro; / nuit
+							</strong>
+						</div>
+						<img src="{{ad.coverImage}}" alt="Image de l'appartement">
+
+						<div class="card-body">
+							<h4 class="card-title">{{ad.title}}</h4>
+							<p class="card-text">
+								{{ ad.introduction }}
+							</p>
+							<a href="" class="btn btn-secondary">En savoir plus</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}
