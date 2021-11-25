@@ -4,13 +4,19 @@ namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
 use App\Repository\AdRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AdRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(
+ *  fields = {"title"},
+ *  message ="Cette annonce existe déjà dans la base"
+ * )
  */
 class Ad
 {
@@ -23,6 +29,8 @@ class Ad
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(min=10,minMessage="Le titre d'une Annonce doit avoir au minimun 10 caractères")
      */
     private $title;
 
@@ -38,11 +46,13 @@ class Ad
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=10,minMessage="L'introduction  d'une Annonce doit avoir au minimun 10 caractères")
      */
     private $introduction;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=10,minMessage="Le contenu d'une Annonce doit avoir au minimun 20 caractères")
      */
     private $content;
 
@@ -53,6 +63,7 @@ class Ad
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive(message="le nombre de chambre doit être positif")
      */
     private $rooms;
 
@@ -60,6 +71,12 @@ class Ad
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="ad", orphanRemoval=true)
      */
     private $images;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ads")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
 
     public function __construct()
     {
@@ -194,6 +211,18 @@ class Ad
                 $image->setAd(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

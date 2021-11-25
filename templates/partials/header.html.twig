@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="#">Navbar</a>
+		<a class="navbar-brand" href="{{path('homepage')}}">SymBNB</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -8,34 +8,43 @@
 		<div class="collapse navbar-collapse" id="navbarColor01">
 			<ul class="navbar-nav me-auto">
 				<li class="nav-item">
-					<a class="nav-link active" href="#">Home
-						<span class="visually-hidden">(current)</span>
+					<a class="nav-link active" href="{{path('homepage')}}">Accueil
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Features</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Pricing</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">About</a>
-				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-					<div class="dropdown-menu">
-						<a class="dropdown-item" href="#">Action</a>
-						<a class="dropdown-item" href="#">Another action</a>
-						<a class="dropdown-item" href="#">Something else here</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#">Separated link</a>
-					</div>
+					<a class="nav-link" href="{{path('ads_index')}}">Annonces</a>
 				</li>
 			</ul>
-			<form class="d-flex">
-				<input class="form-control me-sm-2" type="text" placeholder="Search">
-				<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-			</form>
+			<ul
+				class="navbar-nav ml-auto">
+				{# On teste la connexion de l'utilisateur via la variable globale app #}
+				{% if app.user %}
+					{# Nous avons le cas ou l'utilisateur est connecté #}
+					<li class="nav-item-dropdown">
+						<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+							<img src="{{app.user.picture}}" alt="avatar de {{app.user.lastName}}" class="avatar avatar-mini">
+						</a>
+
+						<div class="dropdown-menu dropdown-menu-rigth" aria-labelledby="dropdownMenuLink">
+							<a class="dropdown-item" href="#">Mon Compte</a>
+
+							<a class="dropdown-item" href="{{path('ads_create')}}">Créer une annonce</a>
+
+
+							<a class="dropdown-item" href="{{path('account_logout')}}">Déconnexion</a>
+
+						</div>
+					</li>
+				{% else %}
+					{# Nous avons le cas ou l'utilisateur est déconnecté #}
+					<li class="nav-item">
+						<a href="{{path('account_register')}}">Inscription</a>
+					</li>
+					<li class="nav-item">
+						<a href="{{path('account_login')}}">Connexion</a>
+					</li>
+				{% endif %}
+			</ul>
 		</div>
 	</div>
 </nav>
